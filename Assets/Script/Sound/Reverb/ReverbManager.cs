@@ -36,6 +36,8 @@ public class ReverbManager : MonoBehaviour
     float maxVolumeW;
     [Range(0f,1f)]
     public float changeSensitivity = 1f;
+    [Range(0f, 20f)]
+    public float maxDecayTime = 1.6f;
 
     void Start()
     {
@@ -77,7 +79,7 @@ public class ReverbManager : MonoBehaviour
         var shortDistanceHits = hitsOrderedByDistance.SkipWhile(a => a < shortDistanceThreshold).TakeWhile(a => a < longDistanceThreshold);
         float shortestDistance = shortDistanceHits.Count() > 0? shortDistanceHits.First() : longDistanceThreshold;
 
-        float preDelay = shortestDistance / 342;
+        float preDelayER = shortestDistance / 342;
 
         float volumePercentage = 1 - shortestDistance / longDistanceThreshold;
 
@@ -87,16 +89,35 @@ public class ReverbManager : MonoBehaviour
         newVolumeDB -= 100;
 
         reverbFX.GetFloat("rvEarlyReflectionsDelay", out tempForGetValues);
-        reverbFX.SetFloat("rvEarlyReflectionsDelay", Mathf.Lerp(tempForGetValues, preDelay, changeSensitivity));
+        reverbFX.SetFloat("rvEarlyReflectionsDelay", Mathf.Lerp(tempForGetValues, preDelayER, changeSensitivity));
         reverbFX.GetFloat("rvEarlyReflectionsLevel", out tempForGetValues);
         reverbFX.SetFloat("rvEarlyReflectionsLevel", Mathf.Lerp(tempForGetValues,newVolumeDB*100, changeSensitivity));
         #endregion
 
         #region Reverb
+        float preDelayMain = 0;
+        if(hitsOrderedByDistance.Count() > 0)
+        {
+            foreach (var hit in hitsOrderedByDistance)
+            {
+                preDelayMain += hit;
+            }
+            preDelayMain /= hitsOrderedByDistance.Count();
+            preDelayMain /= 342;
+        }
+
         float hitPercentage = hitsOrderedByDistance.Count() / (float)detectionRays.Length;
 
         reverbFX.GetFloat("rvPreDelay", out tempForGetValues);
-        reverbFX.SetFloat("rvPreDelay", Mathf.Lerp(tempForGetValues, preDelay, changeSensitivity));
+        reverbFX.SetFloat("rvPreDelay", Mathf.Lerp(tempForGetValues, preDelayMain, changeSensitivity));
+        reverbFX.GetFloat("rvDecayTime", out tempForGetValues);
+        reverbFX.SetFloat("rvDecayTime", Mathf.Lerp(tempForGetValues, maxDecayTime * hitPercentage * (1 - absorptionCoeficient), changeSensitivity));
+        #endregion
+
+        #region Density and Diffusion
+        reverbFX.GetFloat("rvDiffusion", out tempForGetValues);
+        reverbFX.SetFloat("rvDiffusion", Mathf.Lerp(tempForGetValues, shortPercentage*100, changeSensitivity));
+        //Missing density value.
         #endregion
     }
 
