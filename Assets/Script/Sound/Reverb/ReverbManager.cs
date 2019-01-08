@@ -64,8 +64,8 @@ public class ReverbManager : MonoBehaviour
                 //hitInfo[i].distance
 
                 //Angle
-                float cosine = Vector3.Dot(detectionRays[i].detectionRay.direction, detectionRays[i].hitInfo.normal);
-                float angle = Mathf.Acos(cosine);
+                /*float cosine = Vector3.Dot(detectionRays[i].detectionRay.direction, detectionRays[i].hitInfo.normal);
+                float angle = Mathf.Acos(cosine);*/
             }
             else
             {
@@ -109,7 +109,7 @@ public class ReverbManager : MonoBehaviour
         float hitPercentage = hitsOrderedByDistance.Count() / (float)detectionRays.Length;
 
         reverbFX.GetFloat("rvPreDelay", out tempForGetValues);
-        reverbFX.SetFloat("rvPreDelay", Mathf.Lerp(tempForGetValues, preDelayMain, changeSensitivity));
+        reverbFX.SetFloat("rvPreDelay", Mathf.Lerp(tempForGetValues, preDelayER, changeSensitivity));
         reverbFX.GetFloat("rvDecayTime", out tempForGetValues);
         reverbFX.SetFloat("rvDecayTime", Mathf.Lerp(tempForGetValues, maxDecayTime * hitPercentage * (1 - absorptionCoeficient), changeSensitivity));
         #endregion
