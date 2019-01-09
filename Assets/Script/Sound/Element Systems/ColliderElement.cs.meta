@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: 1600be998b312e84ba3e2ad144640db0
+guid: 337fd3eac2bb0dd42ab61a80f40deaf2
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - reverbFX: {fileID: 24100000, guid: 0f4effdf9887cfe4b958d28ce7aa0d22, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

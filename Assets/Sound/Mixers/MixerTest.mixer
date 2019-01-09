@@ -15,18 +15,20 @@ AudioMixerController:
   m_EnableSuspend: 1
   m_UpdateMode: 0
   m_ExposedParameters:
+  - guid: a92c8080d20111a46875d60b1bd21ad8
+    name: rvPreDelay
+  - guid: 7fc896b3b9bc83643bf89c9c195c4030
+    name: rvDensity
+  - guid: 1429da2e96ebb2642ade85faefea4475
+    name: rvRoomLevel
+  - guid: c9f50712a30fb5f48a4f0a1b7ba38775
+    name: rvEarlyReflectionsLevel
   - guid: be40941839d203844b227e0ffaa1e184
     name: rvDecayTime
   - guid: 3f03e225f8865f84abf0303039edf191
     name: rvEarlyReflectionsDelay
   - guid: cadefd7476abc4f4aac0c35e952ccd41
     name: rvDiffusion
-  - guid: c9f50712a30fb5f48a4f0a1b7ba38775
-    name: rvEarlyReflectionsLevel
-  - guid: a92c8080d20111a46875d60b1bd21ad8
-    name: rvPreDelay
-  - guid: 7fc896b3b9bc83643bf89c9c195c4030
-    name: rvDensity
   m_AudioMixerGroupViews:
   - guids:
     - 5bb0be74d691dae468ff7071aa57a396
