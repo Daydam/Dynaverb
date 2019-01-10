@@ -27,8 +27,8 @@ public class ReverbManager : MonoBehaviour
     public AudioMixer reverbFX;
     DetectionRay[] detectionRays;
     public int maxRayAmount = 8;
-    public float shortDistanceThreshold;
-    public float longDistanceThreshold;
+    public float shortDistanceThreshold = 100;
+    public float longDistanceThreshold = 500;
     public float maxDistanceThreshold;
     [Range(-1f, 0f)]
     public float minimumYDetection = -0.2f;
@@ -80,13 +80,19 @@ public class ReverbManager : MonoBehaviour
         #region Diffusion Coefficient Calculation
         var allHitsInfo = detectionRays.Where(a => a.detectedHit).Select(a => a.hitInfo);
         float diffusionCoefficient = 0;
+        float hiDiffusionCoefficient = 0;
+        float lowDiffusionCoefficient = 0;
         if(allHitsInfo.Count() > 0)
         {
             foreach (var item in allHitsInfo)
             {
                 diffusionCoefficient += item.collider.gameObject.GetComponent<ColliderElement>().ElementCoefficients.MidDiffusionCoefficient;
+                hiDiffusionCoefficient += item.collider.gameObject.GetComponent<ColliderElement>().ElementCoefficients.HiDiffusionCoefficient;
+                lowDiffusionCoefficient += item.collider.gameObject.GetComponent<ColliderElement>().ElementCoefficients.LowDiffusionCoefficient;
             }
             diffusionCoefficient /= allHitsInfo.Count();
+            lowDiffusionCoefficient /= allHitsInfo.Count();
+            hiDiffusionCoefficient /= allHitsInfo.Count();
         }
         #endregion
 
@@ -143,6 +149,20 @@ public class ReverbManager : MonoBehaviour
         newRoomLevelDB *= 100;
         reverbFX.GetFloat("rvRoomLevel", out tempForGetValues);
         reverbFX.SetFloat("rvRoomLevel", Mathf.Lerp(tempForGetValues, newRoomLevelDB, changeSensitivity));
+
+        float newLowRoomLevelW = Mathf.Lerp(1, maxVolumeW, (1 - lowDiffusionCoefficient));
+        float newLowRoomLevelDB = 20 * Mathf.Log10(newLowRoomLevelW);
+        newLowRoomLevelDB -= 100;
+        newLowRoomLevelDB *= 100;
+        reverbFX.GetFloat("rvRoomLevelLow", out tempForGetValues);
+        reverbFX.SetFloat("rvRoomLevelLow", Mathf.Lerp(tempForGetValues, newLowRoomLevelDB, changeSensitivity));
+
+        float newHiRoomLevelW = Mathf.Lerp(1, maxVolumeW, (1 - hiDiffusionCoefficient));
+        float newHiRoomLevelDB = 20 * Mathf.Log10(newHiRoomLevelW);
+        newHiRoomLevelDB -= 100;
+        newHiRoomLevelDB *= 100;
+        reverbFX.GetFloat("rvRoomLevelHi", out tempForGetValues);
+        reverbFX.SetFloat("rvRoomLevelHi", Mathf.Lerp(tempForGetValues, newHiRoomLevelDB, changeSensitivity));
         #endregion
     }
 

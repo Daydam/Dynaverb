@@ -11,5 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67804f42bae72a45984dd151c2b8be4, type: 3}
   m_Name: Wood_Hard
   m_EditorClassIdentifier: 
-  midDiffusionCoefficient: 0.5
-  midAbsorptionCoefficient: 0.65
+  elementType: 0
+  diffusionCoefficient: 0.6
+  absorptionCoefficient: 0.5

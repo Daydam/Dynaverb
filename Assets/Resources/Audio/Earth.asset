@@ -9,8 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f67804f42bae72a45984dd151c2b8be4, type: 3}
-  m_Name: Metal plaque
+  m_Name: Earth
   m_EditorClassIdentifier: 
   elementType: 0
-  diffusionCoefficient: 0.1
-  absorptionCoefficient: 0.85
+  diffusionCoefficient: 0.85
+  absorptionCoefficient: 0.2
