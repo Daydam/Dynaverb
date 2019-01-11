@@ -1918,7 +1918,6 @@ GameObject:
   - component: {fileID: 1961444398}
   - component: {fileID: 1961444403}
   - component: {fileID: 1961444404}
-  - component: {fileID: 1961444405}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -2030,39 +2029,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1961444397}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 143087e132c4a3547aaa6ec65cca21fb, type: 3}
+  m_Script: {fileID: 11500000, guid: ae40909cfbfdce8498dbb35b800e91e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionMask:
-    serializedVersion: 2
-    m_Bits: 4096
-  minimumMufflingFrequency: 100
-  maximumMufflingFrequency: 10000
-  maximumSurroundFrequency: 125
-  changeSpeed: 0.3
---- !u!114 &1961444405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1961444397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1600be998b312e84ba3e2ad144640db0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectionMask:
-    serializedVersion: 2
-    m_Bits: 4096
-  reverbFX: {fileID: 24100000, guid: 0f4effdf9887cfe4b958d28ce7aa0d22, type: 2}
-  maxRayAmount: 8
-  shortDistanceThreshold: 0
-  longDistanceThreshold: 100
-  maxDistanceThreshold: 500
-  minimumYDetection: -0.2
-  maxReflectionVolume: 0
-  changeSensitivity: 1
-  maxDecayTime: 0.9
+  mixer: {fileID: 24100000, guid: 0f4effdf9887cfe4b958d28ce7aa0d22, type: 2}
+  processes:
+  - {fileID: 11400000, guid: 7275fe5a2685cf541a63592f8c642c19, type: 2}
+  - {fileID: 11400000, guid: 66504e8aa02e6364d8a7f1dd20776b08, type: 2}
 --- !u!1 &1973920463
 GameObject:
   m_ObjectHideFlags: 0

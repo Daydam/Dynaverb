@@ -2,22 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SurroundListener : MonoBehaviour
+[CreateAssetMenu(fileName = "New Surround Listener", menuName = "Scriptable Objects/Audio/Surround Listener")]
+public class SurroundListener : AudioSuiteProcess
 {
-    static SurroundListener instance;
-    public static SurroundListener Instance
-    {
-        get
-        {
-            if (instance == null) instance = FindObjectOfType<SurroundListener>();
-            if (instance == null)
-            {
-                Debug.LogError("There's no SurroundListener object on scene!");
-            }
-            return instance;
-        }
-    }
-
     public LayerMask detectionMask;
     public LayerMask DetectionMask { get { return detectionMask; } }
     [Range(0, 22000)]

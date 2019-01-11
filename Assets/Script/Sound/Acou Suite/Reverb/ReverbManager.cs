@@ -4,26 +4,12 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Linq;
 
-public class ReverbManager : MonoBehaviour
+[CreateAssetMenu(fileName = "New Reverb Manager", menuName = "Scriptable Objects/Audio/Reverb Manager")]
+public class ReverbManager : AudioSuiteProcess
 {
-    static ReverbManager instance;
-    public static ReverbManager Instance
-    {
-        get
-        {
-            if (instance == null) instance = FindObjectOfType<ReverbManager>();
-            if (instance == null)
-            {
-                Debug.LogError("There's no ReverbManager object on scene!");
-            }
-            return instance;
-        }
-    }
-
     //We need the Raycast detection system. Maybe use Gizmos to show the hits.
 
     public LayerMask detectionMask;
-    public AudioMixer reverbFX;
     DetectionRay[] detectionRays;
     public int maxRayAmount = 8;
     public float shortDistanceThreshold = 100;
@@ -39,7 +25,7 @@ public class ReverbManager : MonoBehaviour
     [Range(0f, 20f)]
     public float maxDecayTime = 1.6f;
 
-    void Start()
+    public override void Initialize()
     {
         detectionRays = new DetectionRay[maxRayAmount];
         for (int i = 0; i < detectionRays.Length; i++)
@@ -50,7 +36,7 @@ public class ReverbManager : MonoBehaviour
         maxVolumeW = Mathf.Pow(10, (maxReflectionVolume + 100) / 20);
     }
 
-    void Update()
+    public override void Process(Transform t, AudioMixer reverbFX)
     {
         //The next 2 lines are just a safety measure for everything to work. Editors should get this crap avoided, but for now it's gonna stay like this.
         longDistanceThreshold = Mathf.Max(longDistanceThreshold, shortDistanceThreshold);
@@ -59,7 +45,7 @@ public class ReverbManager : MonoBehaviour
         //I'ma firing mah Raycasts!
         for (int i = 0; i < detectionRays.Length; i++)
         {
-            detectionRays[i].detectionRay.origin = transform.position;
+            detectionRays[i].detectionRay.origin = t.position;
             detectionRays[i].detectionRay.direction = new Vector3(Random.Range(-1f, 1f), Random.Range(minimumYDetection, 1f), Random.Range(-1f, 1f));
             if(Physics.Raycast(detectionRays[i].detectionRay, out detectionRays[i].hitInfo, maxDistanceThreshold, detectionMask))
             {
@@ -165,7 +151,7 @@ public class ReverbManager : MonoBehaviour
         #endregion
     }
 
-    void OnDrawGizmos()
+    public override void DrawGizmos(Transform t)
     {
         if(Application.isPlaying)
         {

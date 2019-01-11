@@ -22,8 +22,8 @@ public class AutoSurround : MonoBehaviour
 
     void Update()
     {
-        Vector3 distanceToListener = SurroundListener.Instance.transform.position - transform.position;
-        var hits = Physics.RaycastAll(transform.position, distanceToListener.normalized, distanceToListener.magnitude, SurroundListener.Instance.DetectionMask);
+        Vector3 distanceToListener = AudioSuite.Instance.transform.position - transform.position;
+        var hits = Physics.RaycastAll(transform.position, distanceToListener.normalized, distanceToListener.magnitude, AudioSuite.Instance.GetSurroundListener.DetectionMask);
         absorptionFactor = 0;
         if (hits.Length > 0)
         {
@@ -33,22 +33,22 @@ public class AutoSurround : MonoBehaviour
             }
             absorptionFactor = Mathf.Min(1, absorptionFactor);
         }
-        float newFrequency = absorptionFactor > 0? Mathf.Lerp(SurroundListener.Instance.MaximumMufflingFrequency, SurroundListener.Instance.MinimumMufflingFrequency, absorptionFactor): 22000;
-        lowPassFilter.cutoffFrequency = Mathf.Lerp(lowPassFilter.cutoffFrequency, newFrequency, SurroundListener.Instance.ChangeSpeed);
+        float newFrequency = absorptionFactor > 0? Mathf.Lerp(AudioSuite.Instance.GetSurroundListener.MaximumMufflingFrequency, AudioSuite.Instance.GetSurroundListener.MinimumMufflingFrequency, absorptionFactor): 22000;
+        lowPassFilter.cutoffFrequency = Mathf.Lerp(lowPassFilter.cutoffFrequency, newFrequency, AudioSuite.Instance.GetSurroundListener.ChangeSpeed);
 
-        currentListenerAngle = Vector3.Angle(-distanceToListener.normalized, SurroundListener.Instance.transform.forward);
+        currentListenerAngle = Vector3.Angle(-distanceToListener.normalized, AudioSuite.Instance.transform.forward);
         if (currentListenerAngle > 90f)
         {
-            hiPassFilter.cutoffFrequency = Mathf.Lerp(0, SurroundListener.Instance.MaximumSurroundFrequency, (currentListenerAngle - 90) / 90);
+            hiPassFilter.cutoffFrequency = Mathf.Lerp(0, AudioSuite.Instance.GetSurroundListener.MaximumSurroundFrequency, (currentListenerAngle - 90) / 90);
         }
     }
 
     void OnDrawGizmos()
     {
-        if(Application.isPlaying)
+        if(Application.isPlaying && AudioSuite.Instance.GetSurroundListener != default(SurroundListener))
         {
             Gizmos.color = Color.Lerp(Color.blue, Color.red, absorptionFactor);
-            Gizmos.DrawLine(transform.position, SurroundListener.Instance.transform.position);
+            Gizmos.DrawLine(transform.position, AudioSuite.Instance.transform.position);
         }
     }
 }
