@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 using System.Linq;
 
-[RequireComponent(typeof(AudioListener))]
 public class ReverbManager : MonoBehaviour
 {
     static ReverbManager instance;
@@ -15,7 +14,7 @@ public class ReverbManager : MonoBehaviour
             if (instance == null) instance = FindObjectOfType<ReverbManager>();
             if (instance == null)
             {
-                instance = new GameObject("ReverbManager").AddComponent<ReverbManager>();
+                Debug.LogError("There's no ReverbManager object on scene!");
             }
             return instance;
         }

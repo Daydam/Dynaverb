@@ -12,7 +12,7 @@ public class SurroundListener : MonoBehaviour
             if (instance == null) instance = FindObjectOfType<SurroundListener>();
             if (instance == null)
             {
-                instance = new GameObject("ReverbManager").AddComponent<SurroundListener>();
+                Debug.LogError("There's no SurroundListener object on scene!");
             }
             return instance;
         }
@@ -21,11 +21,14 @@ public class SurroundListener : MonoBehaviour
     public LayerMask detectionMask;
     public LayerMask DetectionMask { get { return detectionMask; } }
     [Range(0, 22000)]
-    public float minimumFrequencyForWallthrough = 100;
-    public float MinimumFrequencyForWallthrough { get { return minimumFrequencyForWallthrough; } }
+    public float minimumMufflingFrequency = 100;
+    public float MinimumMufflingFrequency { get { return minimumMufflingFrequency; } }
     [Range(0, 22000)]
-    public float maximumFrequencyForWallthrough = 10000;
-    public float MaximumFrequencyForWallthrough { get { return maximumFrequencyForWallthrough; } }
+    public float maximumMufflingFrequency = 10000;
+    public float MaximumMufflingFrequency { get { return maximumMufflingFrequency; } }
+    [Range(0, 22000)]
+    public float maximumSurroundFrequency = 125;
+    public float MaximumSurroundFrequency { get { return maximumSurroundFrequency; } }
     [Range(0,1)]
     public float changeSpeed = 0.5f;
     public float ChangeSpeed { get { return changeSpeed; } }
